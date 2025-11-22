@@ -1,0 +1,15 @@
+version: "3.9"
+
+services:
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: db-qdrant
+    restart: always
+    volumes:
+      - qdrant_data:/qdrant/storage
+    ports:
+      - "${QDRANT_HTTP_PORT:-6333}:6333"
+      - "${QDRANT_GRPC_PORT:-6334}:6334"
+
+volumes:
+  qdrant_data:
