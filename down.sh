@@ -5,26 +5,34 @@ BASE_DIR="$(cd "$(dirname "$0")" && pwd)"
 cd "$BASE_DIR"
 
 case "$1" in
-  rdb)
-    docker compose -f docker-compose.rdb.yml down
+  mysql)
+    docker compose -f docker-compose.mysql.yml down
     ;;
-  nosql)
-    docker compose -f docker-compose.nosql.yml down
+  postgresql|postgres)
+    docker compose -f docker-compose.postgresql.yml down
     ;;
-  vector)
-    docker compose -f docker-compose.vector.yml down
+  redis)
+    docker compose -f docker-compose.redis.yml down
+    ;;
+  qdrant)
+    docker compose -f docker-compose.qdrant.yml down
+    ;;
+  minio)
+    docker compose -f docker-compose.minio.yml down
     ;;
   n8n)
     docker compose -f docker-compose.n8n.yml down
     ;;
   all|"")
     docker compose -f docker-compose.n8n.yml down || true
-    docker compose -f docker-compose.vector.yml down || true
-    docker compose -f docker-compose.nosql.yml down || true
-    docker compose -f docker-compose.rdb.yml down || true
+    docker compose -f docker-compose.minio.yml down || true
+    # docker compose -f docker-compose.qdrant.yml down || true
+    # docker compose -f docker-compose.redis.yml down || true
+    docker compose -f docker-compose.postgresql.yml down || true
+    docker compose -f docker-compose.mysql.yml down || true
     ;;
   *)
-    echo "사용법: $0 [rdb|nosql|vector|n8n|all]"
+    echo "사용법: $0 [mysql|postgresql|redis|qdrant|minio|n8n|all]"
     exit 1
     ;;
 esac

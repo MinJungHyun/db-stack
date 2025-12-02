@@ -6,31 +6,41 @@ BASE_DIR="$(cd "$(dirname "$0")" && pwd)"
 cd "$BASE_DIR"
 
 case "$1" in
-  rdb)
-    echo "▶ RDB(MySQL)만 올립니다..."
-    docker compose -f docker-compose.rdb.yml up -d
+  mysql)
+    echo "▶ MySQL만 올립니다..."
+    docker compose -f docker-compose.mysql.yml up -d
     ;;
-  nosql)
-    echo "▶ NoSQL(Redis)만 올립니다..."
-    docker compose -f docker-compose.nosql.yml up -d
+  postgresql|postgres)
+    echo "▶ PostgreSQL만 올립니다..."
+    docker compose -f docker-compose.postgresql.yml up -d
     ;;
-  vector)
-    echo "▶ Vector DB(Qdrant)만 올립니다..."
-    docker compose -f docker-compose.vector.yml up -d
+  redis)
+    echo "▶ Redis만 올립니다..."
+    docker compose -f docker-compose.redis.yml up -d
+    ;;
+  qdrant)
+    echo "▶ Qdrant만 올립니다..."
+    docker compose -f docker-compose.qdrant.yml up -d
+    ;;
+  minio)
+    echo "▶ MinIO만 올립니다..."
+    docker compose -f docker-compose.minio.yml up -d
     ;;
   n8n)
-    echo "▶ n8n만 올립니다..."
+    echo "▶ n8n (with PostgreSQL)만 올립니다..."
     docker compose -f docker-compose.n8n.yml up -d
     ;;
   all|"")
-    echo "▶ RDB + NoSQL + Vector + n8n 전체 올립니다..."
-    docker compose -f docker-compose.rdb.yml up -d
-    docker compose -f docker-compose.nosql.yml up -d
-    docker compose -f docker-compose.vector.yml up -d
+    echo "▶ MySQL + PostgreSQL + MinIO + n8n 전체 올립니다..."
+    docker compose -f docker-compose.mysql.yml up -d
+    docker compose -f docker-compose.postgresql.yml up -d
+    # docker compose -f docker-compose.redis.yml up -d
+    # docker compose -f docker-compose.qdrant.yml up -d
+    docker compose -f docker-compose.minio.yml up -d
     docker compose -f docker-compose.n8n.yml up -d
     ;;
   *)
-    echo "사용법: $0 [rdb|nosql|vector|n8n|all]"
+    echo "사용법: $0 [mysql|postgresql|redis|qdrant|minio|n8n|all]"
     exit 1
     ;;
 esac
