@@ -8,21 +8,21 @@ services:
     ports:
       - '${N8N_PORT:-5678}:5678'
     environment:
+      - DB_TYPE=${DB_TYPE}
+      - DB_POSTGRESDB_HOST=${DB_POSTGRESDB_HOST}
+      - DB_POSTGRESDB_PORT=${DB_POSTGRESDB_PORT}
+      - DB_POSTGRESDB_DATABASE=${DB_POSTGRESDB_DATABASE}
+      - DB_POSTGRESDB_USER=${DB_POSTGRESDB_USER}
+      - DB_POSTGRESDB_PASSWORD=${DB_POSTGRESDB_PASSWORD}
       - N8N_BASIC_AUTH_ACTIVE=${N8N_BASIC_AUTH_ACTIVE}
       - N8N_BASIC_AUTH_USER=${N8N_BASIC_AUTH_USER}
       - N8N_BASIC_AUTH_PASSWORD=${N8N_BASIC_AUTH_PASSWORD}
+      - N8N_HOST=0.0.0.0              # ⬅️ 외부에서 접근 가능하게
+      - N8N_PORT=${N8N_PORT}
+      - N8N_PROTOCOL=http
       - TZ=Asia/Seoul
-      # PostgreSQL 연동 설정 (선택사항)
-      # PostgreSQL 사용 시 docker-compose.postgresql.yml도 함께 실행 필요
-      - DB_TYPE=${DB_TYPE:-sqlite}
-      - DB_POSTGRESDB_HOST=${DB_POSTGRESDB_HOST:-host.docker.internal}
-      - DB_POSTGRESDB_PORT=${DB_POSTGRESDB_PORT:-5432}
-      - DB_POSTGRESDB_DATABASE=${DB_POSTGRESDB_DATABASE:-n8n}
-      - DB_POSTGRESDB_USER=${DB_POSTGRESDB_USER}
-      - DB_POSTGRESDB_PASSWORD=${DB_POSTGRESDB_PASSWORD}
     volumes:
       - n8n_data:/home/node/.n8n
 
 volumes:
   n8n_data:
-
